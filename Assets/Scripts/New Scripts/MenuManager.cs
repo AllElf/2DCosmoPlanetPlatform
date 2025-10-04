@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] private bool isPaused  = false;
+    [SerializeField] public bool isPaused  = false;
     [SerializeField] private AudioListener cameraLisener;
     [SerializeField] private Image image;
     [SerializeField] private Sprite[] sprite;

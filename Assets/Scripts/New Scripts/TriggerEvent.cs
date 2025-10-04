@@ -7,6 +7,8 @@ public class TriggerEvent : MonoBehaviour
     [SerializeField] string starTag = "Star";
     [SerializeField] string heart = "Heart";
     [SerializeField] CosmoController2 cosmoController;
+    [SerializeField] MenuManager menuManager;
+    [SerializeField] GameObject panelDeath;
     [SerializeField] float flashDuration = 0.2f;
     [SerializeField] int flashCount = 3;
     [SerializeField] Color flashColor;
@@ -31,6 +33,11 @@ public class TriggerEvent : MonoBehaviour
                 if (cosmoController.health <= 0)
                 {
                     Debug.Log("You Death!");
+                    if(menuManager != null && panelDeath != null)
+                    {
+                        panelDeath.SetActive(true);
+                        menuManager.isPaused = true;
+                    }
                 }
                 Debug.Log("Is Coroutine running");
             }

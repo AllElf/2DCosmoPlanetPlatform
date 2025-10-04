@@ -1,9 +1,9 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.UI;
 
 public class CosmoController2 : MonoBehaviour
 {
-    [Header("Игрок")]
+    [Header("РРіСЂРѕРє")]
     [SerializeField] GameObject player;
     public int health = 3;
     public int starCount = 0;
@@ -11,23 +11,23 @@ public class CosmoController2 : MonoBehaviour
     [SerializeField] public GameObject[] heart;
     
 
-    [Header("Настройки прыжка")]
+    [Header("РќР°СЃС‚СЂРѕР№РєРё РїСЂС‹Р¶РєР°")]
     [SerializeField] float maxJumpHeight = 5f;
     [SerializeField] float jumpAcceleration = 20f;
     [SerializeField] float fallAcceleration = 10f;
 
-    float startY;
-    float currentVelocityY = 0f;
-    float previousY = 0;
-    bool isPushing = false;
+    [SerializeField] float startY;
+    [SerializeField] float currentVelocityY = 0f;
+    [SerializeField] float previousY = 0;
+    [SerializeField] bool isPushing = false;
 
-    [Header("Спрайты")]
+    [Header("РЎРїСЂР°Р№С‚С‹")]
     public SpriteRenderer spriteRenderer;
     [SerializeField] Sprite jumpSprite;
     [SerializeField] Sprite fallSprite;
     [SerializeField] Sprite pushSprite;
 
-    //[Header("Загрузка данных")]
+    //[Header("Р—Р°РіСЂСѓР·РєР° РґР°РЅРЅС‹С…")]
     //[SerializeField] GameData gameData;
 
     //[System.Obsolete]
@@ -36,7 +36,7 @@ public class CosmoController2 : MonoBehaviour
         //gameData = FindObjectOfType<GameData>();
         if (player == null)
         {
-            Debug.LogError("Player GameObject не назначен в инспекторе!");
+            Debug.LogError("Player GameObject РЅРµ РЅР°Р·РЅР°С‡РµРЅ РІ РёРЅСЃРїРµРєС‚РѕСЂРµ!");
             enabled = false;
             return;
         }
@@ -48,7 +48,7 @@ public class CosmoController2 : MonoBehaviour
 
         if (spriteRenderer == null)
         {
-            Debug.LogWarning("SpriteRenderer не найден на объекте игрока.");
+            Debug.LogWarning("SpriteRenderer РЅРµ РЅР°Р№РґРµРЅ РЅР° РѕР±СЉРµРєС‚Рµ РёРіСЂРѕРєР°.");
         }
     }
     public void Heart()
@@ -68,15 +68,9 @@ public class CosmoController2 : MonoBehaviour
     void Update()
     {
         StarsCount();
-        //if (gameData != null && starCount > gameData.scoreStars)
-        //{
-        //    gameData.scoreStars = starCount;
-        //    gameData.SaveScore(gameData.scoreStars);
-
-        //}
         float currentY = player.transform.position.y;
 
-        // Толчок — при первом нажатии
+        // РўРѕР»С‡РѕРє вЂ” РїСЂРё РїРµСЂРІРѕРј РЅР°Р¶Р°С‚РёРё
         if (Input.GetMouseButtonDown(0))
         {
             isPushing = true;
@@ -84,8 +78,8 @@ public class CosmoController2 : MonoBehaviour
                 spriteRenderer.sprite = pushSprite;
         }
 
-        // Подъём — пока удерживается кнопка
-        if (Input.GetMouseButton(0) && currentY < startY + maxJumpHeight)
+        // РџРѕРґСЉС‘Рј вЂ” РєРѕРіРґР° РЅР°Р¶Р°Р»Рё РєРЅРѕРїРєСѓ
+        if (Input.GetMouseButtonDown(0) && currentY < startY + maxJumpHeight)
         {
             currentVelocityY += jumpAcceleration * Time.deltaTime;
 
@@ -102,13 +96,13 @@ public class CosmoController2 : MonoBehaviour
             isPushing = false;
         }
 
-        // Ограничение по высоте
+        // РћРіСЂР°РЅРёС‡РµРЅРёРµ РїРѕ РІС‹СЃРѕС‚Рµ
         if (currentY >= startY + maxJumpHeight && currentVelocityY > 0)
         {
             currentVelocityY = 0;
         }
 
-        // Приземление
+        // РџСЂРёР·РµРјР»РµРЅРёРµ
         if (currentY <= startY && currentVelocityY < 0)
         {
             currentVelocityY = 0;
@@ -121,5 +115,10 @@ public class CosmoController2 : MonoBehaviour
 
         previousY = currentY;
         Heart();
+        if (player.transform.position.y == startY && !Input.GetMouseButton(0) && currentVelocityY <= 0 && isPushing == false)
+        {
+            currentVelocityY += jumpAcceleration  * Time.deltaTime;
+            isPushing = true;
+        }
     }
 }
